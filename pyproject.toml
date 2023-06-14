@@ -1,0 +1,10 @@
+[project]
+name = "redis-kimetsunoyaiba"
+description = "Proyecto de prueba para llamar a Redis desde código en Python."
+version = "1.0.0"
+authors = [
+    { name = "Felipe Vildoso", email = "fvildoso@uchile.cl" }
+]
+dynamic = ["dependencies"]
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }
