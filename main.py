@@ -1,18 +1,34 @@
 import json
+import os
+import logging
 
+import coloredlogs
 import redis
+from dotenv import load_dotenv
+
+# create logger
+logger = logging.getLogger(__name__)
+coloredlogs.install(level='DEBUG')
+
+# take environment variables from .env.
+load_dotenv()
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     # hacemos la conexion a redis
-    r = redis.Redis(host='localhost', port=6379, db=0)
+    r = redis.Redis(
+        host=os.getenv('REDIS_HOST'),
+        port=int(os.getenv('REDIS_PORT')),
+        password=os.getenv('REDIS_PASSWORD'),
+        db=0
+    )
 
-    # agregamos una variable foo con valor bar
+    # agregamos una variable 'foo' con valor 'bar'
     r.set('foo', 'bar')
 
-    # leemos la variable foo y la dejamos en la variable test de python
+    # leemos la variable 'foo' y la dejamos en la variable 'test' de Python
     test = r.get('foo')
-    print(test)
+    logger.info(test)
 
     # hacemos un diccionario
     some_dict = {'nombre': 'Nezuko', 'edad': 32}
@@ -27,4 +43,5 @@ if __name__ == '__main__':
     get_json = json.loads(r.get('json_object'))
 
     # printiamos la edad
-    print(get_json['edad'])
+    logger.info(get_json['nombre'])
+    logger.info(get_json['edad'])
